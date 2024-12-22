@@ -6,11 +6,11 @@
 <main>
     <article class="post-content">
         <div class="post-meta">
-            <span>Author: {{ article.author }}</span>
-            <span>Date: {{ article.created_date | date:"Y-m-d" }}</span>
+            <span>Author: {{ articles.auther_name }}</span>
+            <span>Date: {{ articles.created_at | date:"Y.m.d" }}</span>
         </div>
-            <h1>{{ article.title }}</h1>
-            <p>{{ article.long_content }}</p>
+            <h1>{{ articles.title }}</h1>
+            <p>{{ articles.long_content }}</p>
     </article>
 </main>
 {% endblock %}

@@ -1,40 +1,44 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
+from .models import Articles
 
 
 def home(request):
-    articles = Article.objects.all()
+    articles = Articles.objects.all()
     ctx = {'articles': articles}
-    return render(request, 'index.html', ctx)
+    return render(request,'index.html', ctx)
 
-def create_post(request):
+
+
+def article_create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        category = request.POST.get('category')
         short_content = request.POST.get('short_content')
         long_content = request.POST.get('long_content')
-        author = request.POST.get('author')
-        if title and category and short_content and long_content and author:
-            Article.objects.create(
+        category = request.POST.get('category')
+        auther_name = request.POST.get('auther_name')
+        if title and short_content and long_content and category and auther_name:
+            Articles.objects.create(
                 title=title,
-                category=category,
                 short_content=short_content,
                 long_content=long_content,
-                author=author,
+                category=category,
+                auther_name=auther_name
             )
             return redirect('home')
     return render(request, 'articles/add-post.html')
 
-def article_category(request, category):
-    articles = Article.objects.filter(category=category)
-    ctx = {
-        'articles': articles,
-        'category': category,
-    }
+
+
+
+def articles_by_category(request, category):
+    articles = Articles.objects.filter(category=category)
+    ctx = {'articles': articles, 'category': category}
     return render(request, 'articles/articles-by-category.html', ctx)
 
-def article_detail(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    ctx = {'article': article}
-    return render(request, 'articles/detail.html', ctx )
+
+
+def articles_detail(request, articles_id):
+    articles = get_object_or_404(Articles, pk=articles_id)
+    ctx = {'articles': articles}
+    return render(request, 'articles/detail.html', ctx)
